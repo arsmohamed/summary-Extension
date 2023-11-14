@@ -1,20 +1,23 @@
 .App {
   text-align: left;
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 600px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: first baseline;
 }
-.App-header {
+.App_header {
   font-size: calc(10px + 2vmin);
   color: white;
   margin-top: 15px;
   margin-left: 15px;
 }
+.button_Style {
+  margin: 15px;
+}
 .Content_Style {
-  height: 100vh;
   margin: 15px;
   color: white;
   text-align: justify;

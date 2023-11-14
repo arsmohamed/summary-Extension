@@ -1,48 +1,38 @@
 /* global chrome */
+import React, { useState } from "react";
 import "./App.css";
-import React, { useState, useEffect } from "react";
 
 const App = () => {
-  const [result, setResult] = useState("");
+  const [tabContent, setTabContent] = useState("");
+  const handleClick = () => {
+    // Get the current active tab
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      // Use the first tab in the array, which is the active tab
+      let tab = tabs[0];
 
-  const scanPage = () => {
-    // // Implement your scanning logic here
-    // const htmlText = document.documentElement.outerHTML;
-    // console.log(htmlText);
-    // setResult(htmlText);
-  };
-
-  useEffect(() => {
-    // Check if running in a Chrome extension
-    if (typeof chrome !== "undefined" && chrome.tabs) {
-      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: "scanPage" });
-      });
-
-      chrome.runtime.onMessage.addListener(function (
-        request,
-        sender,
-        sendResponse
-      ) {
-        if (request.action === "displayResult") {
-          setResult(request.result);
+      // Execute the script on the tab
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tab.id },
+          function: () => {
+            return document.body.innerText;
+          },
+        },
+        (result) => {
+          const content = result[0].result;
+          setTabContent(content);
         }
-      });
-    } else {
-      // Handle the case when not running in a Chrome extension
-      console.warn(
-        "The 'chrome' object is not defined. Make sure you are running the app in a Chrome extension context."
       );
-    }
-  }, []);
+    });
+  };
 
   return (
     <div className="App">
-      <header className="App-header">working on the extension</header>
-      {typeof chrome !== "undefined" && chrome.tabs ? (
-        <button onClick={scanPage}>Scan Page</button>
-      ) : null}
-      <pre className="Content_Style">{result}</pre>
+      <header className="App_header">working on the extension</header>
+      <button className="button_Style" onClick={handleClick}>
+        Scan Page
+      </button>
+      <pre className="Content_Style">{tabContent}</pre>
     </div>
   );
 };
