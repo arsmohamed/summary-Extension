@@ -57,7 +57,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <header className="App_header">working on the extension</header>
+      <header className="App_header">Summarize Paragraph :</header>
       <textarea
         className="Input_Style"
         value={inputText}
@@ -65,11 +65,14 @@ const App = () => {
         placeholder="Enter text..."
       />
       <div className="Button_container">
-        <button className="button_Style" onClick={() => getSummary(inputText)}>
+        <button
+          className="button_Style"
+          // onClick={() => getSummary(inputText)}
+        >
           See Result
         </button>
       </div>
-      <pre className="Content_Style">{summary}</pre>
+      <div className="Result_Style">{summary}</div>
     </div>
   );
 };
