@@ -9,7 +9,6 @@ const App = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       // Use the first tab in the array, which is the active tab
       let tab = tabs[0];
-
       // Execute the script on the tab
       chrome.scripting.executeScript(
         {
