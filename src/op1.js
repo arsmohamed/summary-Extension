@@ -6,7 +6,7 @@ import axios from "axios";
 const headers = {
   "content-type": "application/json",
   "X-RapidAPI-Key": "d21e22b6aemsh31775c1a1d8ff0cp111a5bjsned4612084d2a",
-  "X-RapidAPI-Host": "chatgpt-api8.p.rapidapi.com",
+  "X-RapidAPI-Host": "chatgpt53.p.rapidapi.com",
 };
 
 const App = () => {
@@ -19,35 +19,25 @@ const App = () => {
 
   const getSummary = (inputText) => {
     const text = inputText; // Store the inputText value in a separate variable
-    // const data = {
-    //   messages: [
-    //     {
-    //       role: "user",
-    //       content: "how to be create ",
-    //     },
-    //   ],
-    //   temperature: 1,
-    // };
-    const data = [
-      {
-        content:
-          "Hello! I'm an AI assistant bot based on ChatGPT 3. How may I help you?",
-        role: "system",
-      },
-      {
-        role: "user",
-        content: `Please summarize the following paragraph ${text}`,
-      },
-    ];
+    const data = {
+      messages: [
+        {
+          role: "user",
+          content: "text",
+        },
+      ],
+      temperature: 1,
+    };
+
     axios
       .post("https://chatgpt53.p.rapidapi.com/", data, {
         headers: headers,
       })
       .then((response) => {
         // Handle the response from the OpenAI API
-        const summary = response.data;
-        console.log(summary.text);
-        setSummary(summary.text);
+        const summary = response.data.choices[0].message.content;
+        console.log(summary);
+        // setSummary(summary);
       })
       .catch((error) => {
         // Handle any errors that may occur
@@ -69,7 +59,7 @@ const App = () => {
           See Result
         </button>
       </div>
-      <pre className="Content_Style">{summary}</pre>
+      {/* <pre className="Content_Style">{summary}</pre> */}
     </div>
   );
 };
