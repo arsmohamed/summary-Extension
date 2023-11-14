@@ -4,6 +4,12 @@ import "./App.css";
 
 const App = () => {
   const [tabContent, setTabContent] = useState("");
+  const [inputText, setInputText] = useState(""); // State for input text
+
+  const handleInputChange = (event) => {
+    setInputText(event.target.value); // Update input text state
+  };
+
   const handleClick = () => {
     // Get the current active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -28,9 +34,17 @@ const App = () => {
   return (
     <div className="App">
       <header className="App_header">working on the extension</header>
-      <button className="button_Style" onClick={handleClick}>
-        Scan Page
-      </button>
+      <textarea
+        className="Input_Style"
+        value={inputText}
+        onChange={handleInputChange}
+        placeholder="Enter text..."
+      />
+      <div className="Button_container">
+        <button className="button_Style" onClick={handleClick}>
+          Scan Page
+        </button>
+      </div>
       <pre className="Content_Style">{tabContent}</pre>
     </div>
   );
