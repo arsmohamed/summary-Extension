@@ -7,11 +7,5 @@
     "default_popup": "index.html",
     "default_title": "Open"
   },
-  "permissions": ["scripting", "activeTab"],
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ]
+  "permissions": ["scripting", "activeTab"]
 }
