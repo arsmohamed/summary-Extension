@@ -8,11 +8,27 @@ const headers = {
   "X-RapidAPI-Key": "d21e22b6aemsh31775c1a1d8ff0cp111a5bjsned4612084d2a",
   "X-RapidAPI-Host": "chatgpt-api8.p.rapidapi.com",
 };
-
+const languageOptions = [
+  { label: "Arabic", value: "ar" },
+  { label: "Chinese (Simplified)", value: "zh" },
+  { label: "Chinese (Traditional)", value: "zh-TW" },
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Greek", value: "el" },
+  { label: "Italian", value: "it" },
+  { label: "Hindi", value: "hi" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Russian", value: "ru" },
+  { label: "Swedish", value: "sv" },
+  { label: "Turkish", value: "tr" },
+];
 const App = () => {
   const [inputText, setInputText] = useState(""); // State for input text
   const [summary, setSummary] = useState(""); // State for summary
   const [buttonText, setButtonText] = useState("See Result"); // State for button text
+  const [TittleText, setTittleText] = useState("Paste Paragraph :"); // State for button text
   const [isTranslate, setIsTranslate] = useState("Translation");
   const handleInputChange = (event) => {
     setInputText(event.target.value); // Update input text state
@@ -49,23 +65,27 @@ const App = () => {
       "To be creative, there are several things you can try: explore different perspectives, experiment, and you'll find your creative spark.";
     setSummary(sampleSummary);
     setButtonText("Translate");
-    // setIsDisplay("");
+    setTittleText("Summarized Paragraph :");
   };
   const handleTranslateClick = () => {
     setButtonText("Start Over"); // Change button text to 'Start Over'
+    const sampleSummary = "Translated";
+    setSummary(sampleSummary);
+    setTittleText("Translateded Paragraph :");
     // Handle additional actions for Translate button if needed
   };
 
   const handleStartOverClick = () => {
-    setButtonText("See Result"); // Change button text to 'See Result'
-    setInputText(""); // Reset input text
-    setSummary(""); // Reset summary
+    setButtonText("See Result");
+    setInputText("");
+    setSummary("");
+    setTittleText("Paste Paragraph :");
     // Handle additional actions for Start Over button if needed
   };
   const DisplayContainer = (
     <>
-      <header className="App_header">Summarize Paragraph :</header>
-      {buttonText === "Start Over" && (
+      <header className="App_header">{TittleText}</header>
+      {buttonText === "See Result" && (
         <textarea
           className="Input_Style"
           value={inputText}
@@ -73,10 +93,10 @@ const App = () => {
           placeholder="Enter text..."
         />
       )}
-      {buttonText === "See Result" && (
+      {buttonText === "Translate" && (
         <div className="Result_Style">{summary}</div>
       )}
-      {buttonText === "Translate" && (
+      {buttonText === "Start Over" && (
         <div className="Result_Style">{isTranslate}</div>
       )}
     </>
