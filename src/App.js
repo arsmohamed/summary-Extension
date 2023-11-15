@@ -18,16 +18,8 @@ const App = () => {
   };
 
   const getSummary = (inputText) => {
-    const text = inputText; // Store the inputText value in a separate variable
-    // const data = {
-    //   messages: [
-    //     {
-    //       role: "user",
-    //       content: "how to be create ",
-    //     },
-    //   ],
-    //   temperature: 1,
-    // };
+    const text = inputText;
+
     const data = [
       {
         content:
