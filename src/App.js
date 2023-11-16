@@ -42,16 +42,11 @@ const App = () => {
     setInputText(event.target.value); // Update input text state
   };
   const ApiEndPoint =
-    "https://5qj1yfhxg8.execute-api.ca-central-1.amazonaws.com/TranslateContent";
-  const url = "https://euq4f3pz3k.execute-api.ca-central-1.amazonaws.com/test";
+    "https://6762qvddil.execute-api.ca-central-1.amazonaws.com/Translate/myTranslation";
   const body = {
     paragraph: `Lambda is a compute service that lets you run code without provisioning or managing servers. 
       is supply your code in one of the languages that Lambda supports.`,
     languageCode: "ja",
-  };
-  const headers = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
   };
   const getSummary = (inputText) => {
     const text = inputText;
@@ -86,21 +81,28 @@ const App = () => {
     setButtonText("Translate");
     setTittleText("Summarized Paragraph :");
   };
-  const handleTranslateClick = () => {
-    axios
-      .post(url, body)
-      .then((response) => {
-        // Handle the response
-        console.log(response.data);
-        setIsTranslate("response.data");
-      })
-      .catch((error) => {
-        // Handle the error
-        console.error("Axios error : ", error);
-      });
+  const handleTranslateClick = async () => {
+    axios.get(ApiEndPoint)
+    .then( res => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    // axios
+    //   .get(test,{ headers: Newheaders })
+    //   .then((response) => {
+    //     // Handle the response
+    //     console.log(response.data);
+    //     setIsTranslate("response.data");
+    //   })
+    //   .catch((error) => {
+    //     // Handle the error
+    //     console.error("Axios error : ", error);
+    //   });
 
     setButtonText("Start Over");
-    const sampleSummary = "Translated";
+    const sampleSummary = "checking translation";
     setSummary(sampleSummary);
     setTittleText("Translateded Paragraph :");
     // Handle additional actions for Translate button if needed
