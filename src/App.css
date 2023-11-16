@@ -56,3 +56,9 @@
   text-align: justify;
   overflow-y: auto;
 }
+.Lang_DropDown_Style {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
