@@ -1,25 +1,64 @@
 .App {
   text-align: left;
   background-color: #282c34;
-  min-height: 600px;
   width: 400px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: first baseline;
 }
 .App_header {
   font-size: calc(10px + 2vmin);
   color: white;
   margin-top: 15px;
   margin-left: 15px;
+  margin-bottom: 15px;
 }
 .button_Style {
+  border: none;
+  background-color: #f39f5a;
+  color: black;
+  padding: 5px 10px;
   margin: 15px;
+  right: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  outline: none;
 }
 .Content_Style {
   margin: 15px;
   color: white;
   text-align: justify;
   text-justify: inter-word;
+}
+.Input_Style {
+  width: 90%;
+  height: 450px;
+  margin-left: 15px;
+  border: 2px solid #f39f5a;
+  border-radius: 5px;
+  resize: vertical;
+  padding: 5px;
+}
+.Button_container {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.Result_Style {
+  width: 90%;
+  height: 450px;
+  padding: 5px;
+  margin-left: 15px;
+  color: black;
+  background-color: white;
+  border: 2px solid #f39f5a;
+  border-radius: 5px;
+  text-align: justify;
+  overflow-y: auto;
+}
+.Lang_DropDown_Style {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
