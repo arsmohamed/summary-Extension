@@ -24,6 +24,11 @@
   cursor: pointer;
   outline: none;
 }
+.button_Style[disabled] {
+  background-color: gray; 
+  color: white; 
+  cursor: not-allowed; 
+}
 .Content_Style {
   margin: 15px;
   color: white;
@@ -55,6 +60,25 @@
   border-radius: 5px;
   text-align: justify;
   overflow-y: auto;
+}
+.Loading_Style {
+  width: 90%;
+  height: 450px;
+  padding: 5px;
+  margin-left: 15px;
+  color: #f39f5a;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.Spin_Loading_Style {
+  font-size: 70px;
+  margin: 10px;
+}
+.Text_Loading_Style {
+  font-size: 30px;
+  margin: 10px;
 }
 .Lang_DropDown_Style {
   display: flex;
