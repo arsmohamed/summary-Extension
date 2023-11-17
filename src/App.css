@@ -24,6 +24,11 @@
   cursor: pointer;
   outline: none;
 }
+.button_Style[disabled] {
+  background-color: gray; 
+  color: white; 
+  cursor: not-allowed; 
+}
 .Content_Style {
   margin: 15px;
   color: white;

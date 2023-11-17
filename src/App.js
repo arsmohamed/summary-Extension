@@ -34,12 +34,13 @@ const App = () => {
   const [TranslateSummary, setTranslateSummary] = useState("Translation");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const TranslationError = 'We apologize for any inconvenience caused by the current issue with our translation service. Our team is working diligently to resolve the problem and we appreciate your patience.'
+  
   // _________________________________________________ API Section __________________
   const ApiEndPoint =
     "https://6762qvddil.execute-api.ca-central-1.amazonaws.com/Translate/myTranslation";
   const body = { 
     "Val": summary,
-    "Lang": "ja" 
+    "Lang": selectedLanguage 
   }
 
   // _________________________________________________ Function API Section __________________
@@ -133,7 +134,11 @@ const App = () => {
   const ButtonContainer = (
     <div className="Button_container">
       {buttonText === "See Result" && (
-        <button className="button_Style" onClick={() => getSummary(inputText)}>
+        <button 
+        className="button_Style" 
+        onClick={() => getSummary(inputText)}
+        disabled={!inputText}
+        >
           {buttonText}
         </button>
       )}
@@ -151,13 +156,20 @@ const App = () => {
               </option>
             ))}
           </select>
-          <button className="button_Style" onClick={handleTranslateClick}>
+          <button 
+          className="button_Style" 
+          onClick={handleTranslateClick}
+          disabled={!selectedLanguage}
+          >
             {buttonText}
           </button>
         </div>
       )}
       {buttonText === "Start Over" && (
-        <button className="button_Style" onClick={handleStartOverClick}>
+        <button 
+        className="button_Style" 
+        onClick={handleStartOverClick}
+        >
           {buttonText}
         </button>
       )}
