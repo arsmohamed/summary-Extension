@@ -7,8 +7,8 @@ export const handler = async (event) => {
 
   //Get the paragraph and the target language code from the event object 
   const requestBody = JSON.parse(event.body);
-  const paragraph = requestBody.paragraph;
-  const languageCode = requestBody.languageCode;
+  const paragraph = requestBody.text;
+  const languageCode = requestBody.Lang;
   
   //Create a TranslateTextCommand Instance
   const command = new TranslateTextCommand({
