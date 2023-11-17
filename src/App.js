@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import { LoadingOutlined } from '@ant-design/icons';
 
 const headers = {
   "content-type": "application/json",
@@ -34,6 +35,7 @@ const App = () => {
   const [TranslateSummary, setTranslateSummary] = useState("Translation");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const TranslationError = 'We apologize for any inconvenience caused by the current issue with our translation service. Our team is working diligently to resolve the problem and we appreciate your patience.'
+  const SummarizationError = 'We apologize for any inconvenience caused by the current issue with our Summarization service. Our team is working diligently to resolve the problem and we appreciate your patience.'
   const [Transloading, setTransLoading] = useState(false);
 
   // _________________________________________________ API Section __________________
@@ -47,36 +49,40 @@ const App = () => {
   // _________________________________________________ Function API Section __________________
     //Getting the summary from ChatAPI Rapid API 
     const getSummary = (inputText) => {
+      setTransLoading(true);
       const text = inputText;
-      // const data = [
-      //   {
-      //     content:
-      //       "Hello! I'm an AI assistant bot based on ChatGPT 3. How may I help you?",
-      //     role: "system",
-      //   },
-      //   {
-      //     role: "user",
-      //     content: `Please summarize the following paragraph ${text}`,
-      //   },
-      // ];
-      // axios
-      //   .post("https://chatgpt53.p.rapidapi.com/", data, {
-      //     headers: headers,
-      //   })
-      //   .then((response) => {
-      //     // Handle the response from the OpenAI API
-      //     const summary = response.data;
-      //     console.log(summary.text);
-      //     setSummary(summary.text);
-      //   })
-      //   .catch((error) => {
-      //     // Handle any errors that may occur
-      //     console.error(error);
-      //   });
+      const data = [
+        {
+          content:
+            "Hello! I'm an AI assistant bot based on ChatGPT 3. How may I help you?",
+          role: "system",
+        },
+        {
+          role: "user",
+          content: `Please summarize the following paragraph ${text}`,
+        },
+      ];
+      axios
+        .post("https://chatgpt5f3.p.rapidapi.com/", data, {
+          headers: headers,
+        })
+        .then((response) => {
+          const summary = response.data;
+          console.log(summary.text);
+          setSummary(summary.text);
+          setButtonText("Translate");
+          setTittleText("Summarized Paragraph :");
+          setTransLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setSummary(summary.text);
+          setButtonText("Translate");
+          setTittleText("Summarized Paragraph :");
+          setTransLoading(false);
+        });
       
-      setSummary(inputText);
-      setButtonText("Translate");
-      setTittleText("Summarized Paragraph :");
+
     };
     //Getting translation from AWS translate
     const handleTranslateClick = async () => {
@@ -112,12 +118,18 @@ const App = () => {
     setInputText(event.target.value); 
   };
 
+  // _________________________________________________ Loading Section __________________
+  const LoadingView = <div className="Loading_Style">
+      <LoadingOutlined className="Spin_Loading_Style"/>
+      <span className="Text_Loading_Style">Loading...</span>
+    </div>
+
   // _________________________________________________ Display Section __________________
   const DisplayContainer = (
     <>
       <header className="App_header">{TittleText}</header>
       {buttonText === "See Result" && (
-        <textarea
+        Transloading ? LoadingView : <textarea
           className="Input_Style"
           value={inputText}
           onChange={handleInputChange}
@@ -126,7 +138,7 @@ const App = () => {
       )}
       {buttonText === "Translate" && (
         Transloading ?
-        <div className="Result_Style">Loading...</div>
+        LoadingView
         :
         <div className="Result_Style">{summary}</div>
       )}
@@ -140,7 +152,7 @@ const App = () => {
   const ButtonContainer = (
     <div className="Button_container">
       {buttonText === "See Result" && (
-        <button 
+        !Transloading && <button 
         className="button_Style" 
         onClick={() => getSummary(inputText)}
         disabled={!inputText}
