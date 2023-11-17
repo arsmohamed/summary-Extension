@@ -34,7 +34,8 @@ const App = () => {
   const [TranslateSummary, setTranslateSummary] = useState("Translation");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const TranslationError = 'We apologize for any inconvenience caused by the current issue with our translation service. Our team is working diligently to resolve the problem and we appreciate your patience.'
-  
+  const [Transloading, setTransLoading] = useState(false);
+
   // _________________________________________________ API Section __________________
   const ApiEndPoint =
     "https://6762qvddil.execute-api.ca-central-1.amazonaws.com/Translate/myTranslation";
@@ -79,12 +80,14 @@ const App = () => {
     };
     //Getting translation from AWS translate
     const handleTranslateClick = async () => {
+      setTransLoading(true);
       axios.post(ApiEndPoint,body)
       .then( res => {
         console.log(res.data)
         setTranslateSummary(res.data);
         setTittleText("Translateded Paragraph :");
         setButtonText("Start Over");
+        setTransLoading(false);
       })
       .catch(error => {
         console.log(error)
@@ -122,6 +125,9 @@ const App = () => {
         />
       )}
       {buttonText === "Translate" && (
+        Transloading ?
+        <div className="Result_Style">Loading...</div>
+        :
         <div className="Result_Style">{summary}</div>
       )}
       {buttonText === "Start Over" && (
