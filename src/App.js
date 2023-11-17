@@ -8,11 +8,6 @@ const headers = {
   "X-RapidAPI-Key": "d21e22b6aemsh31775c1a1d8ff0cp111a5bjsned4612084d2a",
   "X-RapidAPI-Host": "chatgpt-api8.p.rapidapi.com",
 };
-// const AWSheaders = {
-//   "Accept": `application/json`,
-//   "Authorization": `Bearer {token}`,
-//   “Content-Type”: `application/json`
-// };
 const languageOptions = [
   { label: "Arabic", value: "ar" },
   { label: "Chinese (Simplified)", value: "zh" },
@@ -31,23 +26,23 @@ const languageOptions = [
 ];
 
 const App = () => {
-  const [inputText, setInputText] = useState(""); // State for input text
-  const [summary, setSummary] = useState(""); // State for summary
-  const [buttonText, setButtonText] = useState("See Result"); // State for button text
-  const [TittleText, setTittleText] = useState("Paste Paragraph :"); // State for button text
+  // _________________________________________________ State Section __________________
+  const [inputText, setInputText] = useState("");  
+  const [summary, setSummary] = useState(""); 
+  const [buttonText, setButtonText] = useState("See Result"); 
+  const [TittleText, setTittleText] = useState("Paste Paragraph :"); 
   const [isTranslate, setIsTranslate] = useState("Translation");
   const [selectedLanguage, setSelectedLanguage] = useState("");
 
-  const handleInputChange = (event) => {
-    setInputText(event.target.value); // Update input text state
-  };
+  // _________________________________________________ API Section __________________
   const ApiEndPoint =
     "https://6762qvddil.execute-api.ca-central-1.amazonaws.com/Translate/myTranslation";
-  const body = {
-    paragraph: `Lambda is a compute service that lets you run code without provisioning or managing servers. 
-      is supply your code in one of the languages that Lambda supports.`,
-    languageCode: "ja",
-  };
+  const body = { 
+    "Val": "This is a sample paragraph.",
+    "Lang": "ja" 
+  }
+
+  // _________________________________________________ Function Section __________________
   const getSummary = (inputText) => {
     const text = inputText;
     // const data = [
@@ -82,24 +77,14 @@ const App = () => {
     setTittleText("Summarized Paragraph :");
   };
   const handleTranslateClick = async () => {
-    axios.get(ApiEndPoint)
+    axios.post(ApiEndPoint,body)
     .then( res => {
-      console.log(res)
+      console.log(res.data)
+      setIsTranslate(res.data);
     })
     .catch(error => {
       console.log(error)
     })
-    // axios
-    //   .get(test,{ headers: Newheaders })
-    //   .then((response) => {
-    //     // Handle the response
-    //     console.log(response.data);
-    //     setIsTranslate("response.data");
-    //   })
-    //   .catch((error) => {
-    //     // Handle the error
-    //     console.error("Axios error : ", error);
-    //   });
 
     setButtonText("Start Over");
     const sampleSummary = "checking translation";
@@ -119,6 +104,11 @@ const App = () => {
     setSelectedLanguage(event.target.value);
     // You can perform any additional actions based on the selected language here
   };
+  const handleInputChange = (event) => {
+    setInputText(event.target.value); 
+  };
+
+  // _________________________________________________ Display Section __________________
   const DisplayContainer = (
     <>
       <header className="App_header">{TittleText}</header>
@@ -138,6 +128,8 @@ const App = () => {
       )}
     </>
   );
+  
+  // _________________________________________________ Button Section __________________
   const ButtonContainer = (
     <div className="Button_container">
       {buttonText === "See Result" && (
@@ -171,6 +163,7 @@ const App = () => {
       )}
     </div>
   );
+
   return (
     <div className="App">
       {DisplayContainer}
