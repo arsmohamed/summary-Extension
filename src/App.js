@@ -31,78 +31,78 @@ const App = () => {
   const [summary, setSummary] = useState(""); 
   const [buttonText, setButtonText] = useState("See Result"); 
   const [TittleText, setTittleText] = useState("Paste Paragraph :"); 
-  const [isTranslate, setIsTranslate] = useState("Translation");
+  const [TranslateSummary, setTranslateSummary] = useState("Translation");
   const [selectedLanguage, setSelectedLanguage] = useState("");
-
+  const TranslationError = 'We apologize for any inconvenience caused by the current issue with our translation service. Our team is working diligently to resolve the problem and we appreciate your patience.'
   // _________________________________________________ API Section __________________
   const ApiEndPoint =
     "https://6762qvddil.execute-api.ca-central-1.amazonaws.com/Translate/myTranslation";
   const body = { 
-    "Val": "This is a sample paragraph.",
+    "Val": summary,
     "Lang": "ja" 
   }
 
-  // _________________________________________________ Function Section __________________
-  const getSummary = (inputText) => {
-    const text = inputText;
-    // const data = [
-    //   {
-    //     content:
-    //       "Hello! I'm an AI assistant bot based on ChatGPT 3. How may I help you?",
-    //     role: "system",
-    //   },
-    //   {
-    //     role: "user",
-    //     content: `Please summarize the following paragraph ${text}`,
-    //   },
-    // ];
-    // axios
-    //   .post("https://chatgpt53.p.rapidapi.com/", data, {
-    //     headers: headers,
-    //   })
-    //   .then((response) => {
-    //     // Handle the response from the OpenAI API
-    //     const summary = response.data;
-    //     console.log(summary.text);
-    //     setSummary(summary.text);
-    //   })
-    //   .catch((error) => {
-    //     // Handle any errors that may occur
-    //     console.error(error);
-    //   });
-    const sampleSummary =
-      "To be creative, there are several things you can try: explore different perspectives, experiment, and you'll find your creative spark.";
-    setSummary(sampleSummary);
-    setButtonText("Translate");
-    setTittleText("Summarized Paragraph :");
-  };
-  const handleTranslateClick = async () => {
-    axios.post(ApiEndPoint,body)
-    .then( res => {
-      console.log(res.data)
-      setIsTranslate(res.data);
-    })
-    .catch(error => {
-      console.log(error)
-    })
+  // _________________________________________________ Function API Section __________________
+    //Getting the summary from ChatAPI Rapid API 
+    const getSummary = (inputText) => {
+      const text = inputText;
+      // const data = [
+      //   {
+      //     content:
+      //       "Hello! I'm an AI assistant bot based on ChatGPT 3. How may I help you?",
+      //     role: "system",
+      //   },
+      //   {
+      //     role: "user",
+      //     content: `Please summarize the following paragraph ${text}`,
+      //   },
+      // ];
+      // axios
+      //   .post("https://chatgpt53.p.rapidapi.com/", data, {
+      //     headers: headers,
+      //   })
+      //   .then((response) => {
+      //     // Handle the response from the OpenAI API
+      //     const summary = response.data;
+      //     console.log(summary.text);
+      //     setSummary(summary.text);
+      //   })
+      //   .catch((error) => {
+      //     // Handle any errors that may occur
+      //     console.error(error);
+      //   });
+      
+      setSummary(inputText);
+      setButtonText("Translate");
+      setTittleText("Summarized Paragraph :");
+    };
+    //Getting translation from AWS translate
+    const handleTranslateClick = async () => {
+      axios.post(ApiEndPoint,body)
+      .then( res => {
+        console.log(res.data)
+        setTranslateSummary(res.data);
+        setTittleText("Translateded Paragraph :");
+        setButtonText("Start Over");
+      })
+      .catch(error => {
+        console.log(error)
+        setTranslateSummary(TranslationError);
+        setTittleText("Translateded Paragraph :");
+        setButtonText("Start Over");
+      })
+    };
+    //Cleaning the translate section 
+    const handleStartOverClick = () => {
+      setButtonText("See Result");
+      setInputText("");
+      setSummary("");
+      setTittleText("Paste Paragraph :");
+    };
 
-    setButtonText("Start Over");
-    const sampleSummary = "checking translation";
-    setSummary(sampleSummary);
-    setTittleText("Translateded Paragraph :");
-    // Handle additional actions for Translate button if needed
-  };
-  const handleStartOverClick = () => {
-    setButtonText("See Result");
-    setInputText("");
-    setSummary("");
-    setTittleText("Paste Paragraph :");
-    // Handle additional actions for Start Over button if needed
-  };
+  // _________________________________________________ Function state Section __________________
   const handleLanguageChange = (event) => {
-    console.log(event.target.value);
     setSelectedLanguage(event.target.value);
-    // You can perform any additional actions based on the selected language here
   };
   const handleInputChange = (event) => {
     setInputText(event.target.value); 
@@ -124,7 +124,7 @@ const App = () => {
         <div className="Result_Style">{summary}</div>
       )}
       {buttonText === "Start Over" && (
-        <div className="Result_Style">{isTranslate}</div>
+        <div className="Result_Style">{TranslateSummary}</div>
       )}
     </>
   );
