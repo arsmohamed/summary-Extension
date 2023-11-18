@@ -1,14 +1,14 @@
-// https://rapidapi.com/Glavier/api/chatgpt53/
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import { LoadingOutlined } from '@ant-design/icons';
 
 const headers = {
-  "content-type": "application/json",
-  "X-RapidAPI-Key": "d21e22b6aemsh31775c1a1d8ff0cp111a5bjsned4612084d2a",
-  "X-RapidAPI-Host": "chatgpt-api8.p.rapidapi.com",
+  'content-type': 'application/json',
+  'X-RapidAPI-Key': '73b55b3ddamsh87c38d331703c2fp1e1765jsna527523649a7',
+  'X-RapidAPI-Host': 'chatgpt-api8.p.rapidapi.com'
 };
+
 const languageOptions = [
   { label: "Arabic", value: "ar" },
   { label: "Chinese (Simplified)", value: "zh" },
@@ -37,8 +37,11 @@ const App = () => {
   const TranslationError = 'We apologize for any inconvenience caused by the current issue with our translation service. Our team is working diligently to resolve the problem and we appreciate your patience.'
   const SummarizationError = 'We apologize for any inconvenience caused by the current issue with our Summarization service. Our team is working diligently to resolve the problem and we appreciate your patience.'
   const [Transloading, setTransLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   // _________________________________________________ API Section __________________
+  const ChatGptApi ="https://chatgpt-api8.p.rapidapi.com/"
+  // const ChatGptApi ="https://chatgpt5f3.p.rapidapi.com/"
   const ApiEndPoint =
     "https://6762qvddil.execute-api.ca-central-1.amazonaws.com/Translate/myTranslation";
   const body = { 
@@ -51,7 +54,9 @@ const App = () => {
     const getSummary = (inputText) => {
       setTransLoading(true);
       const text = inputText;
-      const data = [
+      const data = 
+      [
+        // {query : `Please summarize the following paragraph ${text}`}
         {
           content:
             "Hello! I'm an AI assistant bot based on ChatGPT 3. How may I help you?",
@@ -63,7 +68,7 @@ const App = () => {
         },
       ];
       axios
-        .post("https://chatgpt5f3.p.rapidapi.com/", data, {
+        .post(ChatGptApi, data, {
           headers: headers,
         })
         .then((response) => {
@@ -76,10 +81,14 @@ const App = () => {
         })
         .catch((error) => {
           console.error(error);
-          setSummary(summary.text);
-          setButtonText("Translate");
-          setTittleText("Summarized Paragraph :");
+          setShowError(true);
           setTransLoading(false);
+          setTimeout(() => {
+            setShowError(false);
+          }, 10000)
+          // setSummary(summary.text);
+          // setButtonText("Translate");
+          // setTittleText("Summarized Paragraph :");
         });
       
 
@@ -136,12 +145,22 @@ const App = () => {
           placeholder="Enter text..."
         />
       )}
+
       {buttonText === "Translate" && (
         Transloading ?
         LoadingView
         :
-        <div className="Result_Style">{summary}</div>
+        <div className="Result_Style">
+          {
+            showError ? 
+            <div>{SummarizationError}</div>
+            : 
+            <div>{summary}</div>
+          }
+          {/* {summary} */}
+        </div>
       )}
+
       {buttonText === "Start Over" && (
         <div className="Result_Style">{TranslateSummary}</div>
       )}
@@ -161,7 +180,7 @@ const App = () => {
         </button>
       )}
       {buttonText === "Translate" && (
-        <div className="Lang_DropDown_Style">
+        !Transloading && <div className="Lang_DropDown_Style">
           <select
             value={selectedLanguage}
             onChange={handleLanguageChange}
